@@ -1,0 +1,8 @@
+vendor/
+node_modules/
+.DS_Store
+*.log
+qasper-booking-*.zip
+.phpcs.cache
+.idea/
+.vscode/

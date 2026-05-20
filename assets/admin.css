@@ -1,0 +1,22 @@
+.qasper-booking-wrap .qasper-shortcodes {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.qasper-booking-wrap .qasper-shortcodes li {
+  margin-bottom: 0.5rem;
+}
+
+.qasper-booking-wrap .qasper-privacy {
+  max-width: 720px;
+  color: #50575e;
+  line-height: 1.6;
+}
+
+.qasper-booking-wrap code {
+  background: #f6f7f7;
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 13px;
+}

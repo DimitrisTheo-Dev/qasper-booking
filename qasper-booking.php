@@ -1,0 +1,42 @@
+<?php
+/**
+ * Plugin Name:       Qasper Booking
+ * Plugin URI:        https://qasper.ai
+ * Description:       Embed a Qasper booking button or AI chat widget on your WordPress site.
+ * Version:           1.0.0
+ * Requires at least: 6.4
+ * Requires PHP:      7.4
+ * Author:            Qasper
+ * Author URI:        https://qasper.ai
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       qasper-booking
+ *
+ * @package Qasper_Booking
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+define( 'QASPER_BOOKING_VERSION', '1.0.0' );
+define( 'QASPER_BOOKING_DIR', plugin_dir_path( __FILE__ ) );
+define( 'QASPER_BOOKING_URL', plugin_dir_url( __FILE__ ) );
+define( 'QASPER_BOOKING_WIDGET_SCRIPT', 'https://qasper.ai/embed/qasper-widget.js' );
+define( 'QASPER_BOOKING_AGENT_URL_BASE', 'https://qasper.ai/business-agent' );
+define( 'QASPER_BOOKING_OPTION_NAME', 'qasper_booking_settings' );
+define( 'QASPER_BOOKING_SCRIPT_HANDLE', 'qasper-widget' );
+
+require_once QASPER_BOOKING_DIR . 'includes/class-qasper-snippet-builder.php';
+require_once QASPER_BOOKING_DIR . 'includes/class-qasper-shortcodes.php';
+require_once QASPER_BOOKING_DIR . 'includes/class-qasper-script-injector.php';
+
+if ( is_admin() ) {
+	require_once QASPER_BOOKING_DIR . 'includes/class-qasper-settings.php';
+	add_action( 'admin_menu', array( 'Qasper_Settings', 'register_menu' ) );
+	add_action( 'admin_init', array( 'Qasper_Settings', 'register_settings' ) );
+	add_action( 'admin_enqueue_scripts', array( 'Qasper_Settings', 'enqueue_admin_assets' ) );
+}
+
+add_action( 'init', array( 'Qasper_Shortcodes', 'register' ) );
+add_action( 'wp_enqueue_scripts', array( 'Qasper_Script_Injector', 'maybe_enqueue_sitewide' ) );
