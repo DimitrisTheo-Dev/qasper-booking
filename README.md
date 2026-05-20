@@ -4,7 +4,7 @@ Drop a Qasper booking button or an AI chat launcher onto any WordPress site.
 
 ## End-user installation
 
-Download the latest [`qasper-booking-X.Y.Z.zip`](https://github.com/dimitristheodoropoulos/qasper-booking/releases) and install via WordPress admin → **Plugins → Add New → Upload Plugin**. Activate, then visit **Settings → Qasper Booking** to enter your business slug.
+Download the latest [`qasper-booking-X.Y.Z.zip`](https://github.com/DimitrisTheo-Dev/qasper-booking/releases) and install via WordPress admin → **Plugins → Add New → Upload Plugin**. Activate, then visit **Settings → Qasper Booking** to enter your business slug.
 
 For non-technical users: an end-user guide lives in [`readme.txt`](readme.txt) (WP.org format).
 
@@ -20,7 +20,7 @@ Site-wide floating chat: toggle in **Settings → Qasper Booking → Site-wide f
 ## Development setup
 
 ```bash
-git clone https://github.com/dimitristheodoropoulos/qasper-booking.git
+git clone https://github.com/DimitrisTheo-Dev/qasper-booking.git
 cd qasper-booking
 composer install
 ```
