@@ -2,7 +2,7 @@
     "name": "dimitristheo-dev/qasper-booking",
     "description": "Qasper Booking — embed a Qasper booking button or AI chat widget on any WordPress site.",
     "type": "wordpress-plugin",
-    "license": "GPL-2.0-or-later",
+    "license": "GPL-3.0-or-later",
     "homepage": "https://github.com/DimitrisTheo-Dev/qasper-booking",
     "require": {
         "php": ">=7.4"

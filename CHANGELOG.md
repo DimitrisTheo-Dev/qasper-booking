@@ -15,4 +15,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Optional site-wide floating chat injection via `wp_enqueue_scripts`.
 - WordPress-Extra phpcs ruleset (`phpcs.xml.dist`).
 - GitHub Actions CI: PHP 7.4 / 8.0 / 8.2 lint matrix + phpcs + the official WP Plugin Check action.
+- GPL v3 or later license (full GPLv3 text in `LICENSE`).
 - Uninstall hook removes the `qasper_booking_settings` option from `wp_options`.

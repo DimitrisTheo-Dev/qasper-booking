@@ -66,4 +66,4 @@ Six runtime patterns (slug regex, locale list, widget URL, queue-init shape, age
 
 ## License
 
-[GPL v2 or later](LICENSE). The plugin is free, open source, and remains so by license.
+[GPL v3 or later](LICENSE). The plugin is free, open source, and remains so by license.
