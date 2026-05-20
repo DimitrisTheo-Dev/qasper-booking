@@ -46,7 +46,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Stage build dir (production files only — matches the release zip)
+        run: |
+          mkdir -p build/qasper-booking
+          rsync -a \
+            --exclude='.git*' \
+            --exclude='.github' \
+            --exclude='.editorconfig' \
+            --exclude='.phpcs.cache' \
+            --exclude='vendor' \
+            --exclude='composer.*' \
+            --exclude='CONTRACT.md' \
+            --exclude='CHANGELOG.md' \
+            --exclude='build' \
+            ./ build/qasper-booking/
       - name: Run WordPress Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: '.'
+          build-dir: 'build/qasper-booking'

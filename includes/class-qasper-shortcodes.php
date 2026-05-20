@@ -74,7 +74,7 @@ class Qasper_Shortcodes {
 			'locale'   => $locale,
 		);
 
-		wp_register_script( QASPER_BOOKING_SCRIPT_HANDLE, QASPER_BOOKING_WIDGET_SCRIPT, array(), null, true );
+		wp_register_script( QASPER_BOOKING_SCRIPT_HANDLE, QASPER_BOOKING_WIDGET_SCRIPT, array(), QASPER_BOOKING_VERSION, true );
 		wp_add_inline_script( QASPER_BOOKING_SCRIPT_HANDLE, Qasper_Snippet_Builder::build_boot_js( $cfg ), 'before' );
 		wp_enqueue_script( QASPER_BOOKING_SCRIPT_HANDLE );
 
