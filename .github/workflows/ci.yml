@@ -56,6 +56,7 @@ jobs:
             --exclude='.phpcs.cache' \
             --exclude='vendor' \
             --exclude='composer.*' \
+            --exclude='phpcs.xml.dist' \
             --exclude='CONTRACT.md' \
             --exclude='CHANGELOG.md' \
             --exclude='build' \
