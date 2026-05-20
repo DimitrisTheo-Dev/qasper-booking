@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Qasper Booking
- * Plugin URI:        https://qasper.ai
+ * Plugin URI:        https://qasper.ai/wordpress
  * Description:       Embed a Qasper booking button or AI chat widget on your WordPress site.
  * Version:           1.0.0
  * Requires at least: 6.4
