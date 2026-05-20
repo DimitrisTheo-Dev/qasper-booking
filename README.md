@@ -54,9 +54,9 @@ wp plugin-check qasper-booking
    zip -r qasper-booking-X.Y.Z.zip qasper-booking \
      -x 'qasper-booking/.git/*' 'qasper-booking/.github/*' \
         'qasper-booking/composer.*' 'qasper-booking/vendor/*' \
-        'qasper-booking/.phpcs.cache' 'qasper-booking/CONTRACT.md' \
-        'qasper-booking/CHANGELOG.md' 'qasper-booking/.editorconfig' \
-        'qasper-booking/.gitignore'
+        'qasper-booking/phpcs.xml.dist' 'qasper-booking/.phpcs.cache' \
+        'qasper-booking/CONTRACT.md' 'qasper-booking/CHANGELOG.md' \
+        'qasper-booking/.editorconfig' 'qasper-booking/.gitignore'
    ```
 5. `gh release create vX.Y.Z qasper-booking-X.Y.Z.zip --notes-file CHANGELOG.md`.
 
