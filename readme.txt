@@ -1,5 +1,5 @@
 === Qasper Booking ===
-Contributors:      qasper
+Contributors:      qasperai
 Tags:              booking, chat, ai, scheduling, lead-generation
 Requires at least: 6.4
 Tested up to:      6.9
@@ -22,9 +22,26 @@ Qasper Booking lets you drop your Qasper business chat or a booking call-to-acti
 * Locale auto-detection plus manual override for one of: English, Greek, German, Spanish, French, Italian.
 * No third-party tracking from the plugin itself. The widget script is fetched from qasper.ai; nothing else loads until the visitor clicks the launcher.
 
-= Privacy notice =
+== External services ==
 
-When the widget loads, it fetches a small script from qasper.ai. The script does not collect personal data or set cookies. When a visitor clicks the launcher, an iframe loads chat content from qasper.ai. You must add qasper.ai to your privacy policy and, if you use a cookie banner, list it under the categories visitors must consent to.
+This plugin relies on Qasper, an external service operated by Qasper at https://qasper.ai. Qasper is the booking and AI-chat platform that powers the launcher this plugin embeds; a Qasper business account is required to use it.
+
+The service is contacted only by the `[qasper_chat]` shortcode and by the optional site-wide floating chat. The `[qasper_button]` shortcode contacts no external service — it outputs a plain first-party link.
+
+What is sent, and when:
+
+* When a page that uses the chat widget is loaded, the visitor's browser requests the widget script from `https://qasper.ai/embed/qasper-widget.js`. As with any externally hosted script, this request transmits the visitor's IP address and user agent to qasper.ai.
+* The business slug, locale, launcher position, and label you configure are passed to the widget so it knows which Qasper business to open.
+* Only if the visitor clicks the launcher, an iframe loads the chat from qasper.ai. From that point the visitor communicates with qasper.ai directly, and whatever they enter in the chat is sent to qasper.ai.
+
+Nothing is sent to qasper.ai before such a page is viewed. The `[qasper_button]` shortcode sends nothing until the visitor clicks the link and is taken to qasper.ai.
+
+Use of the Qasper service is subject to its terms and privacy policy:
+
+* Terms of Service: https://qasper.ai/terms
+* Privacy Policy: https://qasper.ai/privacy
+
+Because the widget contacts qasper.ai, add qasper.ai to your site's privacy policy and, if you use a cookie or consent banner, list it under the categories your visitors must consent to.
 
 == Installation ==
 

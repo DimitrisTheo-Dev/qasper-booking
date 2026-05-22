@@ -58,10 +58,21 @@ class Qasper_Snippet_Builder {
 	 * pushes the active widget config. Designed to be passed to
 	 * `wp_add_inline_script( handle, $js, 'before' )` — the 'before'
 	 * position guarantees this runs prior to the async loader.
+	 *
+	 * The config is encoded with wp_json_encode() and JSON_HEX_TAG, so the
+	 * output can never contain a literal `<` or `>` and cannot break out
+	 * of the inline <script> element regardless of the stored label.
+	 * wp_json_encode() also escapes non-ASCII to \uXXXX, covering the
+	 * U+2028/U+2029 separators that are invalid in JS string literals.
+	 * Mirrors escapeJsonForScript() on the backend (see CONTRACT.md).
 	 */
 	public static function build_boot_js( $cfg ) {
 		$stub = 'window.QasperWidget=window.QasperWidget||{q:[],init:function(c){this.q.push(c)}};';
-		$init = 'window.QasperWidget.init(' . wp_json_encode( $cfg ) . ');';
+		$json = wp_json_encode( $cfg, JSON_HEX_TAG );
+		if ( false === $json ) {
+			$json = '{}';
+		}
+		$init = 'window.QasperWidget.init(' . $json . ');';
 		return $stub . $init;
 	}
 }
