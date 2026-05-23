@@ -1,8 +1,8 @@
 # Cross-repo coordination contract
 
-This plugin shares **six runtime patterns** with the Qasper backend (the private `qasper.ai` codebase). They are duplicated by design — the backend is not a build-time dependency. Any change on either side must be released in lockstep or customer embeds will break.
+This plugin shares **eight runtime patterns** with the Qasper backend (the private `qasper.ai` codebase). They are duplicated by design — the backend is not a build-time dependency. Any change on either side must be released in lockstep or customer embeds will break.
 
-## The six shared patterns
+## The eight shared patterns
 
 | Pattern | This repo (PHP) | Qasper backend (TypeScript) |
 | --- | --- | --- |
@@ -11,7 +11,9 @@ This plugin shares **six runtime patterns** with the Qasper backend (the private
 | Widget script URL `https://qasper.ai/embed/qasper-widget.js` | `qasper-booking.php` (`QASPER_BOOKING_WIDGET_SCRIPT`) | `src/lib/embedSnippets.ts` (`WIDGET_SCRIPT_URL`) |
 | Agent URL base `https://qasper.ai/business-agent/{slug}/chat?lang=…` | `qasper-booking.php` (`QASPER_BOOKING_AGENT_URL_BASE`) | `src/lib/embedSnippets.ts` (`buildLinkSnippet`, `buildButtonSnippet`) |
 | Queue-init stub `window.QasperWidget={q:[],init:fn}` | `includes/class-qasper-snippet-builder.php::build_boot_js()` | `src/lib/embedSnippets.ts::buildScriptSnippet()` |
-| Button inline CSS string | `includes/class-qasper-snippet-builder.php::build_button_html()` | `src/lib/embedSnippets.ts` (`BUTTON_INLINE_STYLES`) |
+| Button inline CSS string | `includes/class-qasper-snippet-builder.php::build_button_html()` | `src/lib/embedSnippets.ts` (`buildButtonInlineStyles`) |
+| Accent color key `accent` (validated `#` + 3/6 hex, lowercased) | `includes/class-qasper-snippet-builder.php::sanitize_accent()` | `widget/src/iframe-url.ts::normalizeAccent()` |
+| Theme key `theme` (`system`, `light`, `dark`; invalid values become `system`) | `includes/class-qasper-snippet-builder.php::sanitize_theme()` | `src/lib/embedTheme.ts::normalizeEmbedTheme()` and `widget/src/iframe-url.ts::normalizeTheme()` |
 
 ## Coordination discipline
 
@@ -20,6 +22,8 @@ This plugin shares **six runtime patterns** with the Qasper backend (the private
 - **Changing the queue-init API**: extend, don't replace. Old plugin versions installed on customer sites cannot be force-upgraded.
 - **Changing the slug regex**: must stay identical character-for-character. Any change is breaking.
 - **Changing button inline CSS**: safe to update independently — the button is a first-party `<a>` with inline styles; no runtime contract.
+- **Adding the `accent` or `theme` keys (or new config keys)**: extend, don't replace. A widget version that doesn't see the new key silently uses its default, so the plugin can ship new config independently and older widget builds keep working.
+- **Changing theme values**: keep `system`, `light`, and `dark` stable. Direct links and booking buttons must not encode theme unless the direct page starts consuming it.
 
 ## What is **not** shared
 

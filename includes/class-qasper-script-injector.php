@@ -28,6 +28,8 @@ class Qasper_Script_Injector {
 		$label    = isset( $settings['default_label'] ) && $settings['default_label'] !== '' ? $settings['default_label'] : __( 'Chat', 'qasper-booking' );
 		$position = isset( $settings['position'] ) && in_array( $settings['position'], array( 'left', 'right' ), true ) ? $settings['position'] : 'right';
 		$locale   = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
+		$accent   = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$theme    = Qasper_Snippet_Builder::sanitize_theme( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
 
 		$cfg = array(
 			'slug'     => $slug,
@@ -36,6 +38,12 @@ class Qasper_Script_Injector {
 			'label'    => (string) $label,
 			'locale'   => $locale,
 		);
+		if ( '' !== $accent ) {
+			$cfg['accent'] = $accent;
+		}
+		if ( 'system' !== $theme ) {
+			$cfg['theme'] = $theme;
+		}
 
 		wp_register_script( QASPER_BOOKING_SCRIPT_HANDLE, QASPER_BOOKING_WIDGET_SCRIPT, array(), QASPER_BOOKING_VERSION, true );
 		wp_add_inline_script( QASPER_BOOKING_SCRIPT_HANDLE, Qasper_Snippet_Builder::build_boot_js( $cfg ), 'before' );
