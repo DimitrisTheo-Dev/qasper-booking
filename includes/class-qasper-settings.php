@@ -80,10 +80,10 @@ class Qasper_Settings {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		$settings = (array) get_option( QASPER_BOOKING_OPTION_NAME, array() );
-		$slug     = isset( $settings['slug'] ) ? $settings['slug'] : '';
-		$slug_ok  = '' === $slug || Qasper_Snippet_Builder::is_valid_slug( $slug );
-		$accent   = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$settings  = (array) get_option( QASPER_BOOKING_OPTION_NAME, array() );
+		$slug      = isset( $settings['slug'] ) ? $settings['slug'] : '';
+		$slug_ok   = '' === $slug || Qasper_Snippet_Builder::is_valid_slug( $slug );
+		$accent    = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
 		$accent_on = '' !== $accent;
 		?>
 		<div class="wrap qasper-booking-wrap">
