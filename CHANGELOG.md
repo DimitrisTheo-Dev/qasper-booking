@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Configurable brand accent color in Settings → Qasper Booking. The chat icon, send button, links, and the booking button take on the business's chosen color. Threaded through the widget config (`accent`) and the iframe URL.
 - Shared `Qasper_Snippet_Builder::sanitize_accent()` — strict `#` + 3/6-digit hex validation; the single source of truth for accent validation across the plugin.
+- Floating chat theme control (`system`, `light`, `dark`) in settings and `[qasper_chat]`. Theme is threaded only into the widget config; direct links and booking buttons stay theme-free.
 
 ## [1.0.0] — 2026-05-18
 

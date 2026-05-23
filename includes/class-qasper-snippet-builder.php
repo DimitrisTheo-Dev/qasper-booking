@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Qasper_Snippet_Builder {
 
 	const SUPPORTED_LOCALES = array( 'en', 'el', 'de', 'es', 'fr', 'it' );
+	const SUPPORTED_THEMES  = array( 'system', 'light', 'dark' );
 
 	public static function is_valid_slug( $slug ) {
 		return is_string( $slug ) && (bool) preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug );
@@ -39,6 +40,14 @@ class Qasper_Snippet_Builder {
 		}
 		$short = strtolower( substr( $raw, 0, 2 ) );
 		return in_array( $short, self::SUPPORTED_LOCALES, true ) ? $short : 'en';
+	}
+
+	public static function sanitize_theme( $raw ) {
+		if ( ! is_string( $raw ) ) {
+			return 'system';
+		}
+		$normalized = strtolower( trim( $raw ) );
+		return in_array( $normalized, self::SUPPORTED_THEMES, true ) ? $normalized : 'system';
 	}
 
 	/**

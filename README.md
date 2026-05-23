@@ -12,10 +12,10 @@ For non-technical users: an end-user guide lives in [`readme.txt`](readme.txt) (
 
 | Shortcode | Renders |
 | --- | --- |
-| `[qasper_button slug="berlin-barber" label="Book now"]` | Styled booking link, no remote script. |
-| `[qasper_chat slug="berlin-barber" label="Chat with us"]` | Floating chat launcher on this page only. |
+| `[qasper_button slug="berlin-barber" label="Book now" accent="#eea563"]` | Styled booking link, no remote script. |
+| `[qasper_chat slug="berlin-barber" label="Chat with us" position="right" accent="#eea563" theme="dark"]` | Floating chat launcher on this page only. |
 
-Site-wide floating chat: toggle in **Settings → Qasper Booking → Site-wide floating chat**.
+Site-wide floating chat: toggle in **Settings → Qasper Booking → Site-wide floating chat**. Theme is supported for floating chat only (`system`, `light`, `dark`); direct booking buttons stay as first-party links.
 
 ## Development setup
 
@@ -62,7 +62,7 @@ wp plugin-check qasper-booking
 
 ## Cross-repo coordination
 
-Six runtime patterns (slug regex, locale list, widget URL, queue-init shape, agent URL base, button styles) are shared with the Qasper backend. See [`CONTRACT.md`](CONTRACT.md) for the discipline required to keep both sides aligned. Out-of-sync releases will break customer embeds.
+Eight runtime patterns (slug regex, locale list, widget URL, queue-init shape, agent URL base, button styles, accent validation, theme validation) are shared with the Qasper backend. See [`CONTRACT.md`](CONTRACT.md) for the discipline required to keep both sides aligned. Out-of-sync releases will break customer embeds.
 
 ## License
 

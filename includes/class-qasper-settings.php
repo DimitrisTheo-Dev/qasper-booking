@@ -40,6 +40,7 @@ class Qasper_Settings {
 					'sitewide'        => false,
 					'locale_override' => 'auto',
 					'accent'          => '',
+					'theme'           => 'system',
 				),
 			)
 		);
@@ -73,6 +74,7 @@ class Qasper_Settings {
 			'sitewide'        => ! empty( $input['sitewide'] ),
 			'locale_override' => ( isset( $input['locale_override'] ) && in_array( $input['locale_override'], $valid_locales, true ) ) ? $input['locale_override'] : 'auto',
 			'accent'          => $accent,
+			'theme'           => Qasper_Snippet_Builder::sanitize_theme( isset( $input['theme'] ) ? $input['theme'] : 'system' ),
 		);
 	}
 
@@ -85,6 +87,7 @@ class Qasper_Settings {
 		$slug_ok   = '' === $slug || Qasper_Snippet_Builder::is_valid_slug( $slug );
 		$accent    = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
 		$accent_on = '' !== $accent;
+		$theme     = Qasper_Snippet_Builder::sanitize_theme( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
 		?>
 		<div class="wrap qasper-booking-wrap">
 			<h1><?php esc_html_e( 'Qasper Booking', 'qasper-booking' ); ?></h1>
@@ -143,6 +146,18 @@ class Qasper_Settings {
 					</tr>
 
 					<tr>
+						<th scope="row"><label for="qasper-theme"><?php esc_html_e( 'Widget theme', 'qasper-booking' ); ?></label></th>
+						<td>
+							<select id="qasper-theme" name="<?php echo esc_attr( QASPER_BOOKING_OPTION_NAME ); ?>[theme]">
+								<option value="system" <?php selected( $theme, 'system' ); ?>><?php esc_html_e( 'System preference', 'qasper-booking' ); ?></option>
+								<option value="light" <?php selected( $theme, 'light' ); ?>><?php esc_html_e( 'Light', 'qasper-booking' ); ?></option>
+								<option value="dark" <?php selected( $theme, 'dark' ); ?>><?php esc_html_e( 'Dark', 'qasper-booking' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'Applies to the floating chat widget and its embedded conversation. Booking buttons keep the current page theme.', 'qasper-booking' ); ?></p>
+						</td>
+					</tr>
+
+					<tr>
 						<th scope="row"><label for="qasper-locale"><?php esc_html_e( 'Locale', 'qasper-booking' ); ?></label></th>
 						<td>
 							<select id="qasper-locale" name="<?php echo esc_attr( QASPER_BOOKING_OPTION_NAME ); ?>[locale_override]">
@@ -186,8 +201,8 @@ class Qasper_Settings {
 
 			<h2><?php esc_html_e( 'Shortcodes', 'qasper-booking' ); ?></h2>
 			<ul class="qasper-shortcodes">
-				<li><code>[qasper_button slug="berlin-barber" label="Book now"]</code> &mdash; <?php esc_html_e( 'render a booking link button.', 'qasper-booking' ); ?></li>
-				<li><code>[qasper_chat slug="berlin-barber" label="Chat with us"]</code> &mdash; <?php esc_html_e( 'render the floating chat launcher on one page only.', 'qasper-booking' ); ?></li>
+				<li><code>[qasper_button slug="berlin-barber" label="Book now" accent="#eea563"]</code> &mdash; <?php esc_html_e( 'render a booking link button.', 'qasper-booking' ); ?></li>
+				<li><code>[qasper_chat slug="berlin-barber" label="Chat with us" position="right" accent="#eea563" theme="dark"]</code> &mdash; <?php esc_html_e( 'render the floating chat launcher on one page only.', 'qasper-booking' ); ?></li>
 			</ul>
 
 			<h2><?php esc_html_e( 'Privacy notice', 'qasper-booking' ); ?></h2>

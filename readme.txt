@@ -19,6 +19,7 @@ Qasper Booking lets you drop your Qasper business chat or a booking call-to-acti
 * `[qasper_button]` shortcode for a styled booking-link button.
 * `[qasper_chat]` shortcode for a floating chat launcher on a single page.
 * Optional site-wide floating chat (Settings → Qasper Booking).
+* Widget appearance controls: brand accent color and theme (`system`, `light`, or `dark`) for floating chat.
 * Locale auto-detection plus manual override for one of: English, Greek, German, Spanish, French, Italian.
 * No third-party tracking from the plugin itself. The widget script is fetched from qasper.ai; nothing else loads until the visitor clicks the launcher.
 
@@ -31,7 +32,7 @@ The service is contacted only by the `[qasper_chat]` shortcode and by the option
 What is sent, and when:
 
 * When a page that uses the chat widget is loaded, the visitor's browser requests the widget script from `https://qasper.ai/embed/qasper-widget.js`. As with any externally hosted script, this request transmits the visitor's IP address and user agent to qasper.ai.
-* The business slug, locale, launcher position, and label you configure are passed to the widget so it knows which Qasper business to open.
+* The business slug, locale, launcher position, label, accent color, and theme you configure are passed to the widget so it knows which Qasper business to open and how to render its shell.
 * Only if the visitor clicks the launcher, an iframe loads the chat from qasper.ai. From that point the visitor communicates with qasper.ai directly, and whatever they enter in the chat is sent to qasper.ai.
 
 Nothing is sent to qasper.ai before such a page is viewed. The `[qasper_button]` shortcode sends nothing until the visitor clicks the link and is taken to qasper.ai.
@@ -68,6 +69,7 @@ Yes — you need a Qasper business profile to get a slug.
 
 = 1.1.0 =
 * New: configurable brand accent color (Settings → Qasper Booking → Brand color). The chat icon, send button, links, and the booking button take on your brand color. Strict `#`-hex validation at every layer; an invalid or unset value falls back to the Qasper default.
+* New: floating chat theme control (`system`, `light`, or `dark`) in settings and `[qasper_chat position="right" theme="dark"]`. Booking buttons do not load the widget theme and remain plain links.
 
 = 1.0.0 =
 * Initial release: button shortcode, chat shortcode, site-wide floating chat, locale handling, settings page.

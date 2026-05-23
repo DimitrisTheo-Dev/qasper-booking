@@ -27,8 +27,9 @@ class Qasper_Shortcodes {
 	public static function render_button( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'slug'  => '',
-				'label' => '',
+				'slug'   => '',
+				'label'  => '',
+				'accent' => '',
 			),
 			$atts,
 			'qasper_button'
@@ -38,7 +39,8 @@ class Qasper_Shortcodes {
 		$slug     = $atts['slug'] !== '' ? $atts['slug'] : ( isset( $settings['slug'] ) ? $settings['slug'] : '' );
 		$label    = $atts['label'] !== '' ? $atts['label'] : ( isset( $settings['default_label'] ) && $settings['default_label'] !== '' ? $settings['default_label'] : __( 'Book', 'qasper-booking' ) );
 		$locale   = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
-		$accent   = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$accent_source = $atts['accent'] !== '' ? $atts['accent'] : ( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$accent   = Qasper_Snippet_Builder::sanitize_accent( $accent_source );
 
 		return Qasper_Snippet_Builder::build_button_html( $slug, $label, $locale, $accent );
 	}
@@ -49,6 +51,8 @@ class Qasper_Shortcodes {
 				'slug'     => '',
 				'label'    => '',
 				'position' => '',
+				'accent'   => '',
+				'theme'    => '',
 			),
 			$atts,
 			'qasper_chat'
@@ -62,7 +66,10 @@ class Qasper_Shortcodes {
 		$position       = in_array( $position_input, array( 'left', 'right' ), true ) ? $position_input : 'right';
 
 		$locale = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
-		$accent = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$accent_source = $atts['accent'] !== '' ? $atts['accent'] : ( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$accent = Qasper_Snippet_Builder::sanitize_accent( $accent_source );
+		$theme_source = $atts['theme'] !== '' ? $atts['theme'] : ( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
+		$theme = Qasper_Snippet_Builder::sanitize_theme( $theme_source );
 
 		if ( ! Qasper_Snippet_Builder::is_valid_slug( $slug ) ) {
 			return '';
@@ -77,6 +84,9 @@ class Qasper_Shortcodes {
 		);
 		if ( '' !== $accent ) {
 			$cfg['accent'] = $accent;
+		}
+		if ( 'system' !== $theme ) {
+			$cfg['theme'] = $theme;
 		}
 
 		wp_register_script( QASPER_BOOKING_SCRIPT_HANDLE, QASPER_BOOKING_WIDGET_SCRIPT, array(), QASPER_BOOKING_VERSION, true );

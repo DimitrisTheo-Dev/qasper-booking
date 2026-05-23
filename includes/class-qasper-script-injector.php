@@ -29,6 +29,7 @@ class Qasper_Script_Injector {
 		$position = isset( $settings['position'] ) && in_array( $settings['position'], array( 'left', 'right' ), true ) ? $settings['position'] : 'right';
 		$locale   = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
 		$accent   = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$theme    = Qasper_Snippet_Builder::sanitize_theme( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
 
 		$cfg = array(
 			'slug'     => $slug,
@@ -39,6 +40,9 @@ class Qasper_Script_Injector {
 		);
 		if ( '' !== $accent ) {
 			$cfg['accent'] = $accent;
+		}
+		if ( 'system' !== $theme ) {
+			$cfg['theme'] = $theme;
 		}
 
 		wp_register_script( QASPER_BOOKING_SCRIPT_HANDLE, QASPER_BOOKING_WIDGET_SCRIPT, array(), QASPER_BOOKING_VERSION, true );
