@@ -39,6 +39,7 @@ class Qasper_Settings {
 					'position'        => 'right',
 					'sitewide'        => false,
 					'locale_override' => 'auto',
+					'accent'          => '',
 				),
 			)
 		);
@@ -58,6 +59,12 @@ class Qasper_Settings {
 
 		$raw_slug = isset( $input['slug'] ) ? sanitize_text_field( $input['slug'] ) : '';
 
+		// The "Use Qasper's default color" checkbox, when ticked, stores an
+		// empty accent so the widget falls back to its built-in default.
+		$accent = empty( $input['accent_default'] )
+			? Qasper_Snippet_Builder::sanitize_accent( isset( $input['accent'] ) ? $input['accent'] : '' )
+			: '';
+
 		return array(
 			'slug'            => $raw_slug,
 			'default_label'   => isset( $input['default_label'] ) ? sanitize_text_field( $input['default_label'] ) : 'Chat',
@@ -65,6 +72,7 @@ class Qasper_Settings {
 			'position'        => ( isset( $input['position'] ) && in_array( $input['position'], $valid_positions, true ) ) ? $input['position'] : 'right',
 			'sitewide'        => ! empty( $input['sitewide'] ),
 			'locale_override' => ( isset( $input['locale_override'] ) && in_array( $input['locale_override'], $valid_locales, true ) ) ? $input['locale_override'] : 'auto',
+			'accent'          => $accent,
 		);
 	}
 
@@ -75,6 +83,8 @@ class Qasper_Settings {
 		$settings = (array) get_option( QASPER_BOOKING_OPTION_NAME, array() );
 		$slug     = isset( $settings['slug'] ) ? $settings['slug'] : '';
 		$slug_ok  = '' === $slug || Qasper_Snippet_Builder::is_valid_slug( $slug );
+		$accent   = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$accent_on = '' !== $accent;
 		?>
 		<div class="wrap qasper-booking-wrap">
 			<h1><?php esc_html_e( 'Qasper Booking', 'qasper-booking' ); ?></h1>
@@ -104,6 +114,21 @@ class Qasper_Settings {
 						<td>
 							<input type="text" id="qasper-label" name="<?php echo esc_attr( QASPER_BOOKING_OPTION_NAME ); ?>[default_label]" value="<?php echo esc_attr( isset( $settings['default_label'] ) ? $settings['default_label'] : 'Chat' ); ?>" class="regular-text" />
 							<p class="description"><?php esc_html_e( 'Used as the button text and the chat launcher tooltip.', 'qasper-booking' ); ?></p>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Brand color', 'qasper-booking' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( QASPER_BOOKING_OPTION_NAME ); ?>[accent_default]" value="1" <?php checked( ! $accent_on ); ?> />
+								<?php esc_html_e( "Use Qasper's default color", 'qasper-booking' ); ?>
+							</label>
+							<p>
+								<label for="qasper-accent"><?php esc_html_e( 'Or pick your brand color:', 'qasper-booking' ); ?></label>
+								<input type="color" id="qasper-accent" name="<?php echo esc_attr( QASPER_BOOKING_OPTION_NAME ); ?>[accent]" value="<?php echo esc_attr( $accent_on ? $accent : '#EEA563' ); ?>" />
+							</p>
+							<p class="description"><?php esc_html_e( 'Tints the chat icon, the send button, links, and the booking button. Pick a medium-to-bright color so text and icons stay legible.', 'qasper-booking' ); ?></p>
 						</td>
 					</tr>
 

@@ -4,7 +4,7 @@ Tags:              booking, chat, ai, scheduling, lead-generation
 Requires at least: 6.4
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.0.0
+Stable tag:        1.1.0
 License:           GPLv3 or later
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -65,6 +65,9 @@ Yes. `[qasper_button]` renders a first-party `<a>` link that opens the Qasper ch
 Yes — you need a Qasper business profile to get a slug.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: configurable brand accent color (Settings → Qasper Booking → Brand color). The chat icon, send button, links, and the booking button take on your brand color. Strict `#`-hex validation at every layer; an invalid or unset value falls back to the Qasper default.
 
 = 1.0.0 =
 * Initial release: button shortcode, chat shortcode, site-wide floating chat, locale handling, settings page.
