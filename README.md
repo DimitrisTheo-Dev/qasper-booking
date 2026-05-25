@@ -40,12 +40,12 @@ find . -name '*.php' -not -path './vendor/*' -exec php -l {} \;
 WordPress.org compliance check (uses the official Plugin Check action in CI; locally requires WP + wp-cli):
 
 ```bash
-wp plugin-check qasper-booking
+wp plugin check ../qasper-booking-X.Y.Z.zip
 ```
 
 ## Release process
 
-1. Bump the version in three places: `qasper-booking.php` (plugin header `Version:`), `readme.txt` (`Stable tag:`), `CHANGELOG.md` (new section).
+1. Bump the version in three places: `qasper-booking.php` (plugin header `Version:` and `QASPER_BOOKING_VERSION`), `readme.txt` (`Stable tag:`), `CHANGELOG.md` (new section).
 2. Commit, push, wait for CI to go green on `main`.
 3. Tag: `git tag vX.Y.Z && git push --tags`.
 4. Build the customer-facing zip:
@@ -53,8 +53,9 @@ wp plugin-check qasper-booking
    cd ..
    zip -r qasper-booking-X.Y.Z.zip qasper-booking \
      -x 'qasper-booking/.git/*' 'qasper-booking/.github/*' \
-        'qasper-booking/composer.*' 'qasper-booking/vendor/*' \
-        'qasper-booking/phpcs.xml.dist' 'qasper-booking/.phpcs.cache' \
+       'qasper-booking/composer.*' 'qasper-booking/vendor/*' \
+       'qasper-booking/tests/*' \
+       'qasper-booking/phpcs.xml.dist' 'qasper-booking/.phpcs.cache' \
         'qasper-booking/CONTRACT.md' 'qasper-booking/CHANGELOG.md' \
         'qasper-booking/.editorconfig' 'qasper-booking/.gitignore'
    ```
