@@ -12,8 +12,8 @@ For non-technical users: an end-user guide lives in [`readme.txt`](readme.txt) (
 
 | Shortcode | Renders |
 | --- | --- |
-| `[qasper_button slug="berlin-barber" label="Book now" accent="#eea563"]` | Styled booking link, no remote script. |
-| `[qasper_chat slug="berlin-barber" label="Chat with us" position="right" accent="#eea563" theme="dark"]` | Floating chat launcher on this page only. |
+| `[qasper_button slug="new-york-barber" label="Book now" accent="#eea563"]` | Styled booking link, no remote script. |
+| `[qasper_chat slug="new-york-barber" label="Chat with us" position="right" accent="#eea563" theme="dark"]` | Floating chat launcher on this page only. |
 
 Site-wide floating chat: toggle in **Settings → Qasper Booking → Site-wide floating chat**. Theme is supported for floating chat only (`system`, `light`, `dark`); direct booking buttons stay as first-party links.
 

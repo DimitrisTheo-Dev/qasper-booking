@@ -4,7 +4,7 @@ Tags:              booking, chat, ai, scheduling, lead-generation
 Requires at least: 6.4
 Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.0.0
+Stable tag:        1.0.2
 License:           GPLv3 or later
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,7 +48,7 @@ Because the widget contacts qasper.ai, add qasper.ai to your site's privacy poli
 
 1. Upload `qasper-booking` to `/wp-content/plugins/` (or install via the Plugins screen).
 2. Activate the plugin.
-3. Visit Settings → Qasper Booking and enter your business slug (e.g. `berlin-barber`).
+3. Visit Settings → Qasper Booking and enter your business slug (e.g. `new-york-barber`).
 4. Either enable site-wide floating chat or paste a shortcode into a page.
 
 == Frequently Asked Questions ==
@@ -66,6 +66,12 @@ Yes. `[qasper_button]` renders a first-party `<a>` link that opens the Qasper ch
 Yes — you need a Qasper business profile to get a slug.
 
 == Changelog ==
+
+= 1.0.2 =
+* Settings shortcode examples now use the saved business slug instead of the old placeholder slug.
+
+= 1.0.1 =
+* WordPress.org review package refresh: contributor metadata, external-service disclosure, inline-script JSON escaping, and current WordPress compatibility metadata are included in a distinct release package.
 
 = 1.0.0 =
 * Initial release: button shortcode, chat shortcode, site-wide floating chat, locale handling, settings page.

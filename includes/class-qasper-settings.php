@@ -11,9 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Qasper_Settings {
 
-	const PAGE_SLUG     = 'qasper-booking';
-	const OPTION_GROUP  = 'qasper_booking_group';
-	const ADMIN_CSS_TAG = 'qasper-booking-admin';
+	const PAGE_SLUG            = 'qasper-booking';
+	const OPTION_GROUP         = 'qasper_booking_group';
+	const ADMIN_CSS_TAG        = 'qasper-booking-admin';
+	const DEFAULT_EXAMPLE_SLUG = 'new-york-barber';
 
 	public static function register_menu() {
 		add_options_page(
@@ -88,6 +89,7 @@ class Qasper_Settings {
 		$accent    = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
 		$accent_on = '' !== $accent;
 		$theme     = Qasper_Snippet_Builder::sanitize_theme( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
+		$shortcode_example_slug = self::get_valid_slug_for_shortcode_examples( $slug );
 		?>
 		<div class="wrap qasper-booking-wrap">
 			<h1><?php esc_html_e( 'Qasper Booking', 'qasper-booking' ); ?></h1>
@@ -95,7 +97,7 @@ class Qasper_Settings {
 			<?php if ( ! $slug_ok ) : ?>
 				<div class="notice notice-error">
 					<p>
-						<?php esc_html_e( 'Slug must be lowercase letters, digits, and single hyphens (e.g. berlin-barber).', 'qasper-booking' ); ?>
+						<?php esc_html_e( 'Slug must be lowercase letters, digits, and single hyphens (e.g. new-york-barber).', 'qasper-booking' ); ?>
 					</p>
 				</div>
 			<?php endif; ?>
@@ -108,7 +110,7 @@ class Qasper_Settings {
 						<th scope="row"><label for="qasper-slug"><?php esc_html_e( 'Business slug', 'qasper-booking' ); ?></label></th>
 						<td>
 							<input type="text" id="qasper-slug" name="<?php echo esc_attr( QASPER_BOOKING_OPTION_NAME ); ?>[slug]" value="<?php echo esc_attr( $slug ); ?>" class="regular-text" autocomplete="off" spellcheck="false" />
-							<p class="description"><?php esc_html_e( 'Your Qasper business slug, e.g. berlin-barber.', 'qasper-booking' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Your Qasper business slug, e.g. new-york-barber.', 'qasper-booking' ); ?></p>
 						</td>
 					</tr>
 
@@ -201,8 +203,8 @@ class Qasper_Settings {
 
 			<h2><?php esc_html_e( 'Shortcodes', 'qasper-booking' ); ?></h2>
 			<ul class="qasper-shortcodes">
-				<li><code>[qasper_button slug="berlin-barber" label="Book now" accent="#eea563"]</code> &mdash; <?php esc_html_e( 'render a booking link button.', 'qasper-booking' ); ?></li>
-				<li><code>[qasper_chat slug="berlin-barber" label="Chat with us" position="right" accent="#eea563" theme="dark"]</code> &mdash; <?php esc_html_e( 'render the floating chat launcher on one page only.', 'qasper-booking' ); ?></li>
+				<li><code>[qasper_button slug="<?php echo esc_html( $shortcode_example_slug ); ?>" label="Book now" accent="#eea563"]</code> &mdash; <?php esc_html_e( 'render a booking link button.', 'qasper-booking' ); ?></li>
+				<li><code>[qasper_chat slug="<?php echo esc_html( $shortcode_example_slug ); ?>" label="Chat with us" position="right" accent="#eea563" theme="dark"]</code> &mdash; <?php esc_html_e( 'render the floating chat launcher on one page only.', 'qasper-booking' ); ?></li>
 			</ul>
 
 			<h2><?php esc_html_e( 'Privacy notice', 'qasper-booking' ); ?></h2>
@@ -216,5 +218,13 @@ class Qasper_Settings {
 			</p>
 		</div>
 		<?php
+	}
+
+	private static function get_valid_slug_for_shortcode_examples( $slug ) {
+		if ( Qasper_Snippet_Builder::is_valid_slug( $slug ) ) {
+			return $slug;
+		}
+
+		return self::DEFAULT_EXAMPLE_SLUG;
 	}
 }

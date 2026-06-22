@@ -6,7 +6,7 @@
  */
 
 define( 'ABSPATH', __DIR__ . '/../' );
-define( 'QASPER_BOOKING_VERSION', '1.0.0' );
+define( 'QASPER_BOOKING_VERSION', '1.0.2' );
 define( 'QASPER_BOOKING_WIDGET_SCRIPT', 'https://qasper.ai/embed/qasper-widget.js' );
 define( 'QASPER_BOOKING_AGENT_URL_BASE', 'https://qasper.ai/business-agent' );
 define( 'QASPER_BOOKING_OPTION_NAME', 'qasper_booking_settings' );
@@ -142,7 +142,7 @@ qasper_smoke_assert( false !== strpos( $inline_script, '"position":"left"' ), 'C
 
 $sanitized = Qasper_Settings::sanitize(
 	array(
-		'slug'            => 'new-york-barber',
+		'slug'            => 'new-york-salon',
 		'default_label'   => '<b>Chat now</b>',
 		'position'        => 'left',
 		'sitewide'        => '1',
@@ -164,5 +164,8 @@ qasper_smoke_assert( false !== strpos( $settings_html, 'id="qasper-accent"' ), '
 qasper_smoke_assert( false !== strpos( $settings_html, 'value="#abc"' ), 'Settings page did not render saved accent.' );
 qasper_smoke_assert( 1 === preg_match( '/<option value="dark"\\s+selected="selected">Dark<\\/option>/', $settings_html ), 'Settings page did not render saved theme.' );
 qasper_smoke_assert( 1 === preg_match( '/name="qasper_booking_settings\\[sitewide\\]" value="1"\\s+checked="checked"/', $settings_html ), 'Settings page did not render saved sitewide toggle.' );
+qasper_smoke_assert( false !== strpos( $settings_html, '[qasper_button slug="new-york-salon"' ), 'Settings page did not render the saved slug in the button shortcode example.' );
+qasper_smoke_assert( false !== strpos( $settings_html, '[qasper_chat slug="new-york-salon"' ), 'Settings page did not render the saved slug in the chat shortcode example.' );
+qasper_smoke_assert( false === strpos( $settings_html, 'slug="berlin-barber"' ), 'Settings page still rendered the old Berlin placeholder slug.' );
 
 echo 'Qasper Booking smoke tests passed.' . PHP_EOL;
