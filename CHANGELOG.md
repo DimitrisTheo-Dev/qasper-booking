@@ -4,6 +4,25 @@ All notable changes to this project will be documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-07-15
+
+### Added
+
+- One-save setup guidance, a direct plugin-list Settings link, explicit activation status, and unsaved-change protection.
+- `wordpress_site` channel attribution for site-wide widgets, chat shortcodes, and booking-button links.
+- Public cache invalidation on settings changes, activation, and deactivation, including native WP Super Cache support and an integration action for host or CDN caches.
+
+### Changed
+
+- New and incomplete installations now select site-wide floating chat by default, so saving a valid business slug activates the launcher for public visitors immediately.
+- The brand-color control now uses explicit default/custom choices and automatically selects custom mode when the color picker changes.
+- Administrator input validation now preserves the last valid configuration when a slug or custom color is malformed.
+
+### Fixed
+
+- Custom brand colors no longer disappear after the settings page refreshes.
+- Cached guest pages no longer keep stale Qasper markup after ordinary plugin settings changes when WP Super Cache is active.
+
 ## [1.0.2] — 2026-06-22
 
 ### Fixed

@@ -1,19 +1,20 @@
 # Cross-repo coordination contract
 
-This plugin shares **eight runtime patterns** with the Qasper backend (the private `qasper.ai` codebase). They are duplicated by design — the backend is not a build-time dependency. Any change on either side must be released in lockstep or customer embeds will break.
+This plugin shares **nine runtime patterns** with the Qasper backend (the private `qasper.ai` codebase). They are duplicated by design — the backend is not a build-time dependency. Any change on either side must be released in lockstep or customer embeds will break.
 
-## The eight shared patterns
+## The nine shared patterns
 
 | Pattern | This repo (PHP) | Qasper backend (TypeScript) |
 | --- | --- | --- |
 | Slug regex `/^[a-z0-9]+(?:-[a-z0-9]+)*$/` | `includes/class-qasper-snippet-builder.php` (`SLUG_REGEX` in `is_valid_slug`) | `src/lib/embedSnippets.ts` (`SLUG_REGEX`) |
 | Supported locales `[en, el, de, es, fr, it]` | `includes/class-qasper-snippet-builder.php` (`SUPPORTED_LOCALES`) | `src/lib/embedSnippets.ts` (`SUPPORTED_LOCALES`) |
 | Widget script URL `https://qasper.ai/embed/qasper-widget.js` | `qasper-booking.php` (`QASPER_BOOKING_WIDGET_SCRIPT`) | `src/lib/embedSnippets.ts` (`WIDGET_SCRIPT_URL`) |
-| Agent URL base `https://qasper.ai/business-agent/{slug}/chat?lang=…` | `qasper-booking.php` (`QASPER_BOOKING_AGENT_URL_BASE`) | `src/lib/embedSnippets.ts` (`buildLinkSnippet`, `buildButtonSnippet`) |
+| Agent URL base `https://qasper.ai/business-agent/{slug}/chat?channelSource=…&lang=…` | `qasper-booking.php` (`QASPER_BOOKING_AGENT_URL_BASE`) | `src/lib/embedSnippets.ts` (`buildLinkSnippet`, `buildButtonSnippet`) |
 | Queue-init stub `window.QasperWidget={q:[],init:fn}` | `includes/class-qasper-snippet-builder.php::build_boot_js()` | `src/lib/embedSnippets.ts::buildScriptSnippet()` |
 | Button inline CSS string | `includes/class-qasper-snippet-builder.php::build_button_html()` | `src/lib/embedSnippets.ts` (`buildButtonInlineStyles`) |
 | Accent color key `accent` (validated `#` + 3/6 hex, lowercased) | `includes/class-qasper-snippet-builder.php::sanitize_accent()` | `widget/src/iframe-url.ts::normalizeAccent()` |
 | Theme key `theme` (`system`, `light`, `dark`; invalid values become `system`) | `includes/class-qasper-snippet-builder.php::sanitize_theme()` | `src/lib/embedTheme.ts::normalizeEmbedTheme()` and `widget/src/iframe-url.ts::normalizeTheme()` |
+| WordPress channel source `wordpress_site` | `includes/class-qasper-snippet-builder.php` (`WORDPRESS_CHANNEL_SOURCE`) | `src/lib/embedSnippets.ts::buildShortcodeSnippet()` and `widget/src/iframe-url.ts::normalizeChannelSource()` |
 
 ## Coordination discipline
 
@@ -24,6 +25,7 @@ This plugin shares **eight runtime patterns** with the Qasper backend (the priva
 - **Changing button inline CSS**: safe to update independently — the button is a first-party `<a>` with inline styles; no runtime contract.
 - **Adding the `accent` or `theme` keys (or new config keys)**: extend, don't replace. A widget version that doesn't see the new key silently uses its default, so the plugin can ship new config independently and older widget builds keep working.
 - **Changing theme values**: keep `system`, `light`, and `dark` stable. Direct links and booking buttons must not encode theme unless the direct page starts consuming it.
+- **Changing channel attribution**: keep `wordpress_site` stable in shortcode attributes, widget configs, and direct booking links. Treat the shorter legacy value `wordpress` as an alias only.
 
 ## What is **not** shared
 

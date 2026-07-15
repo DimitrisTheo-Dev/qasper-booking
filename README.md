@@ -4,7 +4,7 @@ Drop a Qasper booking button or an AI chat launcher onto any WordPress site.
 
 ## End-user installation
 
-Download the latest [`qasper-booking-X.Y.Z.zip`](https://github.com/DimitrisTheo-Dev/qasper-booking/releases) and install via WordPress admin → **Plugins → Add New → Upload Plugin**. Activate, then visit **Settings → Qasper Booking** to enter your business slug.
+Download the latest [`qasper-booking-X.Y.Z.zip`](https://github.com/DimitrisTheo-Dev/qasper-booking/releases) and install via WordPress admin → **Plugins → Add New → Upload Plugin**. Activate, then visit **Settings → Qasper Booking**. Enter your business slug, review the appearance, and click **Save & Activate Qasper** once. New and incomplete setups enable the site-wide launcher by default.
 
 For non-technical users: an end-user guide lives in [`readme.txt`](readme.txt) (WP.org format).
 
@@ -12,10 +12,10 @@ For non-technical users: an end-user guide lives in [`readme.txt`](readme.txt) (
 
 | Shortcode | Renders |
 | --- | --- |
-| `[qasper_button slug="new-york-barber" label="Book now" accent="#eea563"]` | Styled booking link, no remote script. |
-| `[qasper_chat slug="new-york-barber" label="Chat with us" position="right" accent="#eea563" theme="dark"]` | Floating chat launcher on this page only. |
+| `[qasper_button slug="new-york-barber" label="Book now" channel_source="wordpress_site" accent="#eea563"]` | Styled booking link, no remote script. |
+| `[qasper_chat slug="new-york-barber" label="Chat with us" position="right" channel_source="wordpress_site" accent="#eea563" theme="dark"]` | Floating chat launcher on this page only. |
 
-Site-wide floating chat: toggle in **Settings → Qasper Booking → Site-wide floating chat**. Theme is supported for floating chat only (`system`, `light`, `dark`); direct booking buttons stay as first-party links.
+Site-wide floating chat is enabled by default for a new setup and can be changed under **Settings → Qasper Booking → Site-wide floating chat**. Saving settings clears the WordPress object cache and WP Super Cache when it is active. Theme is supported for floating chat only (`system`, `light`, `dark`); direct booking buttons stay as first-party links.
 
 ## Development setup
 
@@ -63,7 +63,7 @@ wp plugin check ../qasper-booking-X.Y.Z.zip
 
 ## Cross-repo coordination
 
-Eight runtime patterns (slug regex, locale list, widget URL, queue-init shape, agent URL base, button styles, accent validation, theme validation) are shared with the Qasper backend. See [`CONTRACT.md`](CONTRACT.md) for the discipline required to keep both sides aligned. Out-of-sync releases will break customer embeds.
+Nine runtime patterns (slug regex, locale list, widget URL, queue-init shape, agent URL base, button styles, accent validation, theme validation, channel attribution) are shared with the Qasper backend. See [`CONTRACT.md`](CONTRACT.md) for the discipline required to keep both sides aligned. Out-of-sync releases will break customer embeds.
 
 ## License
 

@@ -1,6 +1,6 @@
 .qasper-booking-wrap .qasper-shortcodes {
   margin: 0;
-  padding-left: 1.25rem;
+  padding-inline-start: 1.25rem;
 }
 
 .qasper-booking-wrap .qasper-shortcodes li {
@@ -19,4 +19,52 @@
   border-radius: 4px;
   padding: 1px 6px;
   font-size: 13px;
+}
+
+.qasper-booking-wrap .qasper-status-notice {
+  max-width: 720px;
+  margin-block: 1rem;
+}
+
+.qasper-booking-wrap .description + input,
+.qasper-booking-wrap .description + select {
+  margin-block-start: 0.5rem;
+}
+
+.qasper-booking-wrap fieldset {
+  max-width: 720px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.qasper-booking-wrap .qasper-choice-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  width: fit-content;
+}
+
+.qasper-booking-wrap .qasper-choice-row input {
+  margin: 0;
+}
+
+.qasper-booking-wrap .qasper-color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block: 0.5rem;
+}
+
+.qasper-booking-wrap input[type="color"] {
+  width: 3rem;
+  min-height: 3rem;
+  padding: 0.125rem;
+  cursor: pointer;
+}
+
+.qasper-booking-wrap :where(input, select, a, button):focus-visible {
+  outline: 2px solid #2271b1;
+  outline-offset: 2px;
 }

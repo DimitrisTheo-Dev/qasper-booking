@@ -13,8 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Qasper_Snippet_Builder {
 
-	const SUPPORTED_LOCALES = array( 'en', 'el', 'de', 'es', 'fr', 'it' );
-	const SUPPORTED_THEMES  = array( 'system', 'light', 'dark' );
+	const SUPPORTED_LOCALES        = array( 'en', 'el', 'de', 'es', 'fr', 'it' );
+	const SUPPORTED_THEMES         = array( 'system', 'light', 'dark' );
+	const WORDPRESS_CHANNEL_SOURCE = 'wordpress_site';
 
 	public static function is_valid_slug( $slug ) {
 		return is_string( $slug ) && (bool) preg_match( '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug );
@@ -51,6 +52,25 @@ class Qasper_Snippet_Builder {
 	}
 
 	/**
+	 * Normalize the source identifier used by older and current shortcodes.
+	 * Every embed rendered by this plugin is attributed to WordPress.
+	 *
+	 * @param mixed $raw Raw channel source.
+	 * @return string
+	 */
+	public static function normalize_channel_source( $raw ) {
+		if ( is_string( $raw ) ) {
+			$normalized = strtolower( trim( $raw ) );
+			// phpcs:ignore WordPress.WP.CapitalPDangit.MisspelledInText -- Legacy wire value is lowercase.
+			if ( 'wordpress' === $normalized || self::WORDPRESS_CHANNEL_SOURCE === $normalized ) {
+				return self::WORDPRESS_CHANNEL_SOURCE;
+			}
+		}
+
+		return self::WORDPRESS_CHANNEL_SOURCE;
+	}
+
+	/**
 	 * Resolve effective locale: explicit override (one of 6) wins over auto.
 	 * `auto` falls back to the WordPress site locale.
 	 */
@@ -61,12 +81,19 @@ class Qasper_Snippet_Builder {
 		return self::normalize_locale( get_locale() );
 	}
 
-	public static function build_button_html( $slug, $label, $locale = 'en', $accent = '' ) {
+	public static function build_button_html(
+		$slug,
+		$label,
+		$locale = 'en',
+		$accent = '',
+		$channel_source = self::WORDPRESS_CHANNEL_SOURCE
+	) {
 		if ( ! self::is_valid_slug( $slug ) ) {
 			return '';
 		}
-		$loc  = self::normalize_locale( $locale );
-		$href = QASPER_BOOKING_AGENT_URL_BASE . '/' . $slug . '/chat?lang=' . $loc;
+		$loc            = self::normalize_locale( $locale );
+		$channel_source = self::normalize_channel_source( $channel_source );
+		$href           = QASPER_BOOKING_AGENT_URL_BASE . '/' . $slug . '/chat?channelSource=' . rawurlencode( $channel_source ) . '&lang=' . $loc;
 		// $bg is a validated hex string (or the brand default); the whole
 		// style string is esc_attr'd on output below.
 		$bg     = self::sanitize_accent( $accent );
