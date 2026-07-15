@@ -27,32 +27,35 @@ class Qasper_Shortcodes {
 	public static function render_button( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'slug'   => '',
-				'label'  => '',
-				'accent' => '',
+				'slug'           => '',
+				'label'          => '',
+				'accent'         => '',
+				'channel_source' => Qasper_Snippet_Builder::WORDPRESS_CHANNEL_SOURCE,
 			),
 			$atts,
 			'qasper_button'
 		);
 
-		$settings      = self::settings();
-		$slug          = $atts['slug'] !== '' ? $atts['slug'] : ( isset( $settings['slug'] ) ? $settings['slug'] : '' );
-		$label         = $atts['label'] !== '' ? $atts['label'] : ( isset( $settings['default_label'] ) && $settings['default_label'] !== '' ? $settings['default_label'] : __( 'Book', 'qasper-booking' ) );
-		$locale        = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
-		$accent_source = $atts['accent'] !== '' ? $atts['accent'] : ( isset( $settings['accent'] ) ? $settings['accent'] : '' );
-		$accent        = Qasper_Snippet_Builder::sanitize_accent( $accent_source );
+		$settings       = self::settings();
+		$slug           = $atts['slug'] !== '' ? $atts['slug'] : ( isset( $settings['slug'] ) ? $settings['slug'] : '' );
+		$label          = self::resolve_label( $atts['label'], $settings, __( 'Book', 'qasper-booking' ) );
+		$locale         = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
+		$accent_source  = $atts['accent'] !== '' ? $atts['accent'] : ( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$accent         = Qasper_Snippet_Builder::sanitize_accent( $accent_source );
+		$channel_source = Qasper_Snippet_Builder::normalize_channel_source( $atts['channel_source'] );
 
-		return Qasper_Snippet_Builder::build_button_html( $slug, $label, $locale, $accent );
+		return Qasper_Snippet_Builder::build_button_html( $slug, $label, $locale, $accent, $channel_source );
 	}
 
 	public static function render_chat( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'slug'     => '',
-				'label'    => '',
-				'position' => '',
-				'accent'   => '',
-				'theme'    => '',
+				'slug'           => '',
+				'label'          => '',
+				'position'       => '',
+				'accent'         => '',
+				'theme'          => '',
+				'channel_source' => Qasper_Snippet_Builder::WORDPRESS_CHANNEL_SOURCE,
 			),
 			$atts,
 			'qasper_chat'
@@ -60,27 +63,29 @@ class Qasper_Shortcodes {
 
 		$settings = self::settings();
 		$slug     = $atts['slug'] !== '' ? $atts['slug'] : ( isset( $settings['slug'] ) ? $settings['slug'] : '' );
-		$label    = $atts['label'] !== '' ? $atts['label'] : ( isset( $settings['default_label'] ) && $settings['default_label'] !== '' ? $settings['default_label'] : __( 'Chat', 'qasper-booking' ) );
+		$label    = self::resolve_label( $atts['label'], $settings, __( 'Chat', 'qasper-booking' ) );
 
 		$position_input = $atts['position'] !== '' ? $atts['position'] : ( isset( $settings['position'] ) ? $settings['position'] : 'right' );
 		$position       = in_array( $position_input, array( 'left', 'right' ), true ) ? $position_input : 'right';
 
-		$locale        = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
-		$accent_source = $atts['accent'] !== '' ? $atts['accent'] : ( isset( $settings['accent'] ) ? $settings['accent'] : '' );
-		$accent        = Qasper_Snippet_Builder::sanitize_accent( $accent_source );
-		$theme_source  = $atts['theme'] !== '' ? $atts['theme'] : ( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
-		$theme         = Qasper_Snippet_Builder::sanitize_theme( $theme_source );
+		$locale         = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
+		$accent_source  = $atts['accent'] !== '' ? $atts['accent'] : ( isset( $settings['accent'] ) ? $settings['accent'] : '' );
+		$accent         = Qasper_Snippet_Builder::sanitize_accent( $accent_source );
+		$theme_source   = $atts['theme'] !== '' ? $atts['theme'] : ( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
+		$theme          = Qasper_Snippet_Builder::sanitize_theme( $theme_source );
+		$channel_source = Qasper_Snippet_Builder::normalize_channel_source( $atts['channel_source'] );
 
 		if ( ! Qasper_Snippet_Builder::is_valid_slug( $slug ) ) {
 			return '';
 		}
 
 		$cfg = array(
-			'slug'     => $slug,
-			'mode'     => 'floating',
-			'position' => $position,
-			'label'    => (string) $label,
-			'locale'   => $locale,
+			'slug'          => $slug,
+			'mode'          => 'floating',
+			'position'      => $position,
+			'label'         => $label,
+			'locale'        => $locale,
+			'channelSource' => $channel_source,
 		);
 		if ( '' !== $accent ) {
 			$cfg['accent'] = $accent;
@@ -94,5 +99,25 @@ class Qasper_Shortcodes {
 		wp_enqueue_script( QASPER_BOOKING_SCRIPT_HANDLE );
 
 		return '';
+	}
+
+	/**
+	 * Resolve a shortcode or saved launcher label to a safe string value.
+	 *
+	 * @param mixed  $shortcode_label Shortcode label.
+	 * @param array  $settings Saved plugin settings.
+	 * @param string $fallback_label Fallback label.
+	 * @return string
+	 */
+	private static function resolve_label( $shortcode_label, $settings, $fallback_label ) {
+		if ( is_string( $shortcode_label ) && '' !== trim( $shortcode_label ) ) {
+			return $shortcode_label;
+		}
+
+		if ( isset( $settings['default_label'] ) && is_string( $settings['default_label'] ) && '' !== trim( $settings['default_label'] ) ) {
+			return $settings['default_label'];
+		}
+
+		return $fallback_label;
 	}
 }

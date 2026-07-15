@@ -25,18 +25,21 @@ class Qasper_Script_Injector {
 			return;
 		}
 
-		$label    = isset( $settings['default_label'] ) && $settings['default_label'] !== '' ? $settings['default_label'] : __( 'Chat', 'qasper-booking' );
+		$label    = isset( $settings['default_label'] ) && is_string( $settings['default_label'] ) && '' !== trim( $settings['default_label'] )
+			? $settings['default_label']
+			: __( 'Chat', 'qasper-booking' );
 		$position = isset( $settings['position'] ) && in_array( $settings['position'], array( 'left', 'right' ), true ) ? $settings['position'] : 'right';
 		$locale   = Qasper_Snippet_Builder::resolve_locale( isset( $settings['locale_override'] ) ? $settings['locale_override'] : 'auto' );
 		$accent   = Qasper_Snippet_Builder::sanitize_accent( isset( $settings['accent'] ) ? $settings['accent'] : '' );
 		$theme    = Qasper_Snippet_Builder::sanitize_theme( isset( $settings['theme'] ) ? $settings['theme'] : 'system' );
 
 		$cfg = array(
-			'slug'     => $slug,
-			'mode'     => 'floating',
-			'position' => $position,
-			'label'    => (string) $label,
-			'locale'   => $locale,
+			'slug'          => $slug,
+			'mode'          => 'floating',
+			'position'      => $position,
+			'label'         => $label,
+			'locale'        => $locale,
+			'channelSource' => Qasper_Snippet_Builder::WORDPRESS_CHANNEL_SOURCE,
 		);
 		if ( '' !== $accent ) {
 			$cfg['accent'] = $accent;
